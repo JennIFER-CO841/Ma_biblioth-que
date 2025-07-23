@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 21 juil. 2025 à 13:22
+-- Généré le : mer. 23 juil. 2025 à 13:52
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `ma_bibliotheque_vacances`
 --
+CREATE DATABASE IF NOT EXISTS `ma_bibliotheque_vacances` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `ma_bibliotheque_vacances`;
 
 -- --------------------------------------------------------
 
@@ -30,13 +32,18 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `auteurs`;
 CREATE TABLE IF NOT EXISTS `auteurs` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `prenom` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nom` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `prenom` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_naissance` date DEFAULT NULL,
-  `biographie` text COLLATE utf8mb4_general_ci,
+  `biographie` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Tronquer la table avant d'insérer `auteurs`
+--
+
+TRUNCATE TABLE `auteurs`;
 --
 -- Déchargement des données de la table `auteurs`
 --
@@ -73,11 +80,16 @@ INSERT INTO `auteurs` (`id`, `nom`, `prenom`, `date_naissance`, `biographie`) VA
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom_categorie` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nom_categorie` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nom_categorie` (`nom_categorie`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Tronquer la table avant d'insérer `categories`
+--
+
+TRUNCATE TABLE `categories`;
 --
 -- Déchargement des données de la table `categories`
 --
@@ -109,8 +121,13 @@ CREATE TABLE IF NOT EXISTS `emprunts` (
   PRIMARY KEY (`id`),
   KEY `livre_id` (`livre_id`),
   KEY `utilisateur_id` (`utilisateur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Tronquer la table avant d'insérer `emprunts`
+--
+
+TRUNCATE TABLE `emprunts`;
 --
 -- Déchargement des données de la table `emprunts`
 --
@@ -129,7 +146,13 @@ INSERT INTO `emprunts` (`id`, `livre_id`, `utilisateur_id`, `date_emprunt`, `dat
 (11, 10, 12, '2025-07-18', '2025-07-20', 'retourné'),
 (12, 4, 8, '2025-07-20', '2025-07-20', 'retourné'),
 (13, 12, 8, '2025-07-20', NULL, 'actif'),
-(14, 19, 8, '2025-07-20', NULL, 'actif');
+(14, 19, 8, '2025-07-20', NULL, 'actif'),
+(15, 23, 8, '2025-07-23', '2025-07-23', 'retourné'),
+(16, 11, 8, '2025-07-23', '2025-07-23', 'retourné'),
+(17, 11, 8, '2025-07-23', '2025-07-23', 'retourné'),
+(18, 4, 8, '2025-07-23', '2025-07-23', 'retourné'),
+(19, 4, 8, '2025-07-23', '2025-07-23', 'retourné'),
+(20, 10, 8, '2025-07-23', NULL, 'actif');
 
 -- --------------------------------------------------------
 
@@ -140,17 +163,17 @@ INSERT INTO `emprunts` (`id`, `livre_id`, `utilisateur_id`, `date_emprunt`, `dat
 DROP TABLE IF EXISTS `livres`;
 CREATE TABLE IF NOT EXISTS `livres` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `titre` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `isbn` varchar(13) COLLATE utf8mb4_general_ci NOT NULL,
+  `titre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `isbn` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `annee_publication` year NOT NULL,
-  `resume` text COLLATE utf8mb4_general_ci,
+  `resume` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `nombre_exemplaires_total` int NOT NULL,
   `nombre_exemplaires_disponibles` int NOT NULL,
   `auteur_id` int DEFAULT NULL,
   `categorie_id` int DEFAULT NULL,
   `utilisateur_id` int DEFAULT NULL,
   `nombre_exemplaires` int NOT NULL DEFAULT '0',
-  `description` text COLLATE utf8mb4_general_ci,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `isbn` (`isbn`),
   KEY `fk_auteur` (`auteur_id`),
@@ -158,6 +181,11 @@ CREATE TABLE IF NOT EXISTS `livres` (
   KEY `fk_utilisateur` (`utilisateur_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Tronquer la table avant d'insérer `livres`
+--
+
+TRUNCATE TABLE `livres`;
 --
 -- Déchargement des données de la table `livres`
 --
@@ -170,7 +198,7 @@ INSERT INTO `livres` (`id`, `titre`, `isbn`, `annee_publication`, `resume`, `nom
 (7, 'Le Grand Meaulnes', '9782070360202', '1913', 'Dans un internat rural, l’arrivée mystérieuse d’Augustin Meaulnes bouleverse la vie du jeune François. Un roman d’aventures initiatiques et de rêves brisés.', 8, 8, 17, 1, 5, 0, NULL),
 (8, 'Neuromancien', '9782070415735', '1984', 'Case, un hacker déchu, est recruté pour une mission d\'infiltration dans le cyberespace. Ce roman fondateur du cyberpunk explore l’intelligence artificielle, la réalité virtuelle et les mégacorporations.', 6, 6, 17, 3, 5, 0, NULL),
 (9, 'L\'Assassin Royal – L\'Apprenti assassin', '9782266120859', '1995', 'Fitz, un bâtard royal, est initié à l\'art de l’assassinat pour servir la couronne. Il découvre un monde dangereux fait de magie, de trahisons et de choix déchirants.', 11, 11, 8, 4, 5, 0, NULL),
-(10, 'Le Capital au XXIe siècle', '9782021082289', '2013', 'L’économiste Thomas Piketty analyse les inégalités économiques sur trois siècles, en montrant l’impact du capital, des héritages et des politiques fiscales.', 7, 7, 9, 2, 5, 0, NULL),
+(10, 'Le Capital au XXIe siècle', '9782021082289', '2013', 'L’économiste Thomas Piketty analyse les inégalités économiques sur trois siècles, en montrant l’impact du capital, des héritages et des politiques fiscales.', 7, 6, 9, 2, 5, 0, NULL),
 (11, 'Fahrenheit 451', '9782070368222', '1953', 'Dans un futur où les livres sont interdits, Montag est pompier chargé de les brûler. Une rencontre va éveiller sa conscience et bouleverser sa vision du monde.', 10, 10, 10, 3, 5, 0, NULL),
 (12, 'L’Écume des jours', '9782070363692', '1947', 'Colin, jeune homme amoureux, vit dans un monde poétique et absurde. L’amour qu’il porte à Chloé se heurte à la maladie, dans un univers qui se dégrade au fil du récit.', 5, 4, 11, 1, 5, 0, NULL),
 (15, 'La Guerre éternelle', '9782290351297', '1974', 'Soldat dans une guerre interstellaire contre une espèce alien, William Mandella revient sur Terre après chaque mission, découvrant un monde radicalement transformé par la relativité.', 6, 6, 14, 3, 5, 0, NULL),
@@ -196,16 +224,21 @@ INSERT INTO `livres` (`id`, `titre`, `isbn`, `annee_publication`, `resume`, `nom
 DROP TABLE IF EXISTS `utilisateurs`;
 CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom_utilisateur` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `mot_de_passe` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `role` enum('lecteur','admin') COLLATE utf8mb4_general_ci DEFAULT 'lecteur',
+  `nom_utilisateur` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `mot_de_passe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('lecteur','admin') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'lecteur',
   `date_inscription` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nom_utilisateur` (`nom_utilisateur`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Tronquer la table avant d'insérer `utilisateurs`
+--
+
+TRUNCATE TABLE `utilisateurs`;
 --
 -- Déchargement des données de la table `utilisateurs`
 --
