@@ -142,9 +142,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
        <!-- Bouton retour vers la gestion des auteurs -->
     <div class="mt-6">
-        <a href="gerer_auteurs.php"
-           class="inline-block bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition">
-            ⬅️ Retour à la gestion des auteurs
+       <a href="../gerer_auteurs.php"
+            class="inline-block bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition">
+                ⬅️ Retour à la gestion des auteurs
         </a>
     </div>
 </main>
